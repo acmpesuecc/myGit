@@ -31,26 +31,26 @@ def parse_args():
     cat_file_parser.set_defaults(func=cat_file)
     cat_file_parser.add_argument("object", help="The object to display")
 
-    write_tree_parser = commands.add_parser("write-tree")
+    write_tree_parser = commands.add_parser("write-tree", help="Create tree object at current index")
     write_tree_parser.set_defaults(func=write_tree)
 
-    read_tree_parser = commands.add_parser("read-tree")
+    read_tree_parser = commands.add_parser("read-tree", help="Read tree object into the index")
     read_tree_parser.set_defaults(func=read_tree)
     read_tree_parser.add_argument("tree")
 
-    commit_parser = commands.add_parser("commit")
+    commit_parser = commands.add_parser("commit", help="Brief description of the changes made")
     commit_parser.set_defaults(func=commit)
     commit_parser.add_argument("-m", "--message", required=True)
 
-    log_parser = commands.add_parser("log")
+    log_parser = commands.add_parser("log", help="Displaying commit history")
     log_parser.set_defaults(func=log)
     log_parser.add_argument("oid", nargs="?")
 
-    checkout_parser = commands.add_parser("checkout")
+    checkout_parser = commands.add_parser("checkout", help="Command to change to another existing branch")
     checkout_parser.set_defaults(func=checkout)
     checkout_parser.add_argument("oid")
 
-    tag_parser = commands.add_parser("tag")
+    tag_parser = commands.add_parser("tag", help="Mark specific commits to label version release in the repository")
     tag_parser.set_defaults(func=tag)
     tag_parser.add_argument("name")
     tag_parser.add_argument("oid", nargs="?")
