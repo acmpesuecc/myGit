@@ -81,6 +81,22 @@ def hash_object(args):
     #     print(f"Error: {e}", file=sys.stderr)
     #     sys.exit(1)
 
+#new hash function
+
+def hash_object(args):
+    #try:
+        with open(args.file, "rb") as f:
+            content = f.read()
+
+            # Check if the --hash flag is passed and set to 'sha256'
+            if args.algo == 'sha256':
+                hash_value = hashlib.sha256(content).hexdigest()
+            else:
+                # Default to sha512 if no flag or other algorithm is provided
+                hash_value = hashlib.sha512(content).hexdigest()
+
+            print(hash_value)
+
 
 def cat_file(args):
     try:
