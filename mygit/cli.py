@@ -70,17 +70,12 @@ def init(args):
 
 
 def hash_object(args):
-    # try:
-    with open(args.file, "rb") as f:
-        content = f.read()
-        print(repo_funcs.hash_object(content))
-    # except FileNotFoundError:
-    #     print(f"Error: File '{args.file}' not found", file=sys.stderr)
-    #     sys.exit(1)
-    # except Exception as e:
-    #     print(f"Error: {e}", file=sys.stderr)
-    #     sys.exit(1)
-
+    try:
+        with open(args.file, "rb") as f:
+            content = f.read()
+            print(repo_funcs.hash_object(content))
+    except Exception as e:
+        print(f"Error: {e}")
 
 def cat_file(args):
     try:
