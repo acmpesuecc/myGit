@@ -4,6 +4,8 @@ from pathlib import PurePath
 from pathlib import Path
 import textwrap
 
+import hashlib
+
 from . import base
 from .data import MyGitFuncs
 from .base import MyGitHigherFuncs
@@ -91,12 +93,14 @@ def hash_object(args):
             # Check if the --hash flag is passed and set to 'sha256'
             if args.algo == 'sha256':
                 hash_value = hashlib.sha256(content).hexdigest()
-            else:
-                # Default to sha512 if no flag or other algorithm is provided
-                hash_value = hashlib.sha512(content).hexdigest()
-
             print(hash_value)
 
+def hash_object(args):
+    with open(args.file,'rb') as f:
+        content=f.read()
+        if args.algo=='sha256':
+            hash_value=hashlib.sha1(args).hexdigest()
+            print(hash_value)
 
 def cat_file(args):
     try:
