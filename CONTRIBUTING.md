@@ -10,18 +10,19 @@ We appreciate all contributions, whether they are bug fixes, UI improvements, or
 
 ### 2. Clone Your Fork
 
-- Clone your forked repository to your local machine:
-  ```bash
-  git clone git@github.com:acmpesuecc/myGit.git
-  cd myGit
-  ```
+- Clone your forked repository to your local machine and install mygit in editable mode:
+    ```bash
+    git clone git@github.com:acmpesuecc/myGit.git
+    cd myGit
+	pip install --editable .
+    ```
 
 ### 3. Create a Branch for Your Contribution
 
 - Create a new branch for your contribution:
-  ```bash
-  git checkout -b issue-description
-  ```
+    ```bash
+    git checkout -b issue-description
+    ```
 
 ### 4. Make Your Changes
 
@@ -37,29 +38,27 @@ We appreciate all contributions, whether they are bug fixes, UI improvements, or
 ### 6. Commit Your Changes
 
 - Commit your changes with a meaningful commit message:
-  ```bash
-  git add .
-  git commit -m "Fix issue #X: Description of what you've fixed/added"
-  ```
+    ```bash
+    git add .
+    git commit -m "Fix issue #X: Description of what you've fixed/added"
+    ```
 
 ### 7. Push to Your Fork
 
 - Push your changes to your forked repository:
-  ```bash
-  git push origin issue-description
-  ```
+    ```bash
+    git push origin issue-description
+    ```
 
 ### 8. Create a Pull Request
 
 - Go to the original repository on GitHub and create a pull request. Please ensure your PR includes a description of what you did and references the issue it solves (if applicable).
 
 ### 9. Get Feedback
-
-Wait for a maintainer to review your pull request (PR) and provide feedback.
+   Wait for a maintainer to review your pull request (PR) and provide feedback.
 
 ### 10. Gain Bounty Points :)
-
-If everything is approved, your issue will be closed, and you'll gain bounty points on the leaderboard!
+   If everything is approved, your issue will be closed, and you'll gain bounty points on the leaderboard!
 
 ---
 

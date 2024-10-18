@@ -13,17 +13,24 @@ commands working so far :
 
 I shall update the readme as I add features :)
 
-### To install in dev mode :
+## Installation Instructions :
 
 ```
+$ git clone git@github.com:acmpesuecc/myGit.git
+$ cd myGit
 $ pip install --editable .
 ```
 
 ### Usage :
 
 ```
-$ mygit
+$ mygit --help
 ```
-### Contributing
+
+## Contributing
 
 We welcome contributions! Please see [CONTRIBUTING.md](https://github.com/acmpesuecc/myGit/blob/master/CONTRIBUTING.md) for guidelines on how to contribute to this project.
+
+## License
+
+This project is licensed under the GNU GPL v3 License. See the LICENSE file for more details.
