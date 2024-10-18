@@ -19,11 +19,9 @@ class MyGitFuncs:
 
     def hash_object(self, data, type_="blob"):
         obj = type_.encode() + b"\x00" + data
-        oid = hashlib.sha512(obj).hexdigest()
-        path = Path(self.GIT_DIR) / "objects" / oid
-        with path.open(mode="wb") as f:
-            f.write(obj)
+        oid = hashlib.sha256(obj).hexdigest()
         return oid
+
 
     def get_object(self, oid, expected="blob"):
         path = Path(self.GIT_DIR) / "objects" / oid
