@@ -4,11 +4,10 @@ from pathlib import PurePath
 from pathlib import Path
 import textwrap
 
-import hashlib
-
 from . import base
 from .data import MyGitFuncs
 from .base import MyGitHigherFuncs
+import hashlib
 
 
 def parse_args():
@@ -26,6 +25,7 @@ def parse_args():
     )
     hash_object_parser.set_defaults(func=hash_object)
     hash_object_parser.add_argument("file", help="File to hash")
+    hash_object_parser.add_argument("-w",action="store_true")
 
     cat_file_parser = commands.add_parser(
         "cat-file", help="Provide content of repository object"
@@ -84,23 +84,27 @@ def hash_object(args):
     #     sys.exit(1)
 
 #new hash function
-
+'''
 def hash_object(args):
     #try:
         with open(args.file, "rb") as f:
             content = f.read()
 
-            # Check if the --hash flag is passed and set to 'sha256'
             if args.algo == 'sha256':
                 hash_value = hashlib.sha256(content).hexdigest()
             print(hash_value)
+'''
 
 def hash_object(args):
     with open(args.file,'rb') as f:
         content=f.read()
-        if args.algo=='sha256':
-            hash_value=hashlib.sha1(args).hexdigest()
-            print(hash_value)
+        if args.w == True:
+            hash_value = hashlib.sha256(content).hexdigest()
+        else:
+            hash_value
+        print(hash_value)
+    
+
 
 def cat_file(args):
     try:
