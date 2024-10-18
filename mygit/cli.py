@@ -50,7 +50,7 @@ def parse_args():
     checkout_parser.set_defaults(func=checkout)
     checkout_parser.add_argument("oid")
 
-    tag_parser = commands.add_parser("tag", help="Mark specific commits to label version release in the repository")
+    tag_parser = commands.add_parser("tag", help="")
     tag_parser.set_defaults(func=tag)
     tag_parser.add_argument("name")
     tag_parser.add_argument("oid", nargs="?")
