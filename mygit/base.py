@@ -114,6 +114,8 @@ class MyGitHigherFuncs:
         self.ll_funcs.update_ref("HEAD", oid)
 
     def create_tag(self, name, oid):
+        if oid is None:
+            oid = self.ll_funcs.get_ref("HEAD")
         self.ll_funcs.update_ref(f"rel/tags/{name}", oid)
 
 

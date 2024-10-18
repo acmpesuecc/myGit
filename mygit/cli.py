@@ -55,6 +55,9 @@ def parse_args():
     tag_parser.add_argument("name")
     tag_parser.add_argument("oid", nargs="?")
 
+    k_parser = commands.add_parser("k", help="Visualize history using gitk")
+    k_parser = set_defaults(func=gitk)
+
     return parser.parse_args()
 
 
@@ -104,7 +107,10 @@ def commit(args):
 
 
 def log(args):
-    oid = args.oid or repo_funcs.get_ref("HEAD")
+    if args.oid == '@':
+        oid = repo_funcs.get_ref("HEAD")
+    else:
+        oid = args.oid or repo_funcs.get_ref("HEAD")
     while oid:
         commit = hl_funcs.get_commit(oid)
         print(f"commit {oid}\n")
@@ -120,6 +126,28 @@ def checkout(args):
 def tag(args):
     oid = args.oid or repo_funcs.get_ref("HEAD")
     hl_funcs.create_tag(args.name, oid)
+
+def gitk(args):
+    dot_contents = ['digraph mygitk {', 'node [shape=box style=filled]']
+    oid = repo_funcs.get_ref("HEAD")
+    visited = set()
+    
+    while oid and oid not in visited:
+        visited.add(oid)
+        commit = hl_funcs.get_commit(oid)
+        dot_contents.append(f'"{oid}" [label="{oid[:7]}\\n{commit.message}" fillcolor=lightblue]')
+        if commit.parent:
+            dot_contents.append(f'"{oid}" -> "{commit.parent}"')
+        oid = commit.parent
+
+    dot_contents.append('}')
+    
+    dot_file = Path('mygitk_graph.dot')
+    dot_file.write_text('\n'.join(dot_contents))
+
+    subprocess.run(['dot', '-Tpng', 'mygitk_graph.dot', '-o', 'mygitk_graph.png'])
+    print("Graph saved as mygitk_graph.png")
+
 
 
 def main():
