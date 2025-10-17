@@ -68,14 +68,23 @@ class MyGitHigherFuncs:
         return result
 
     def read_tree(self, tree_oid):
-        self._empty_current_directory()
-        for entry in self.get_tree(tree_oid, base_path="./").items():
-            path = entry[0]
-            oid = entry[1]
-            path = Path(path)
-            (path.parent).mkdir(exist_ok=True)
-            with path.open(mode="wb") as f:
-                f.write(self.ll_funcs.get_object(oid))
+        if not isinstance(tree_oid, str) or len(tree_oid) not in (40, 64):
+            raise FileNotFoundError
+        valid_chars = set("0123456789abcdef")
+        for c in tree_oid:
+            if c not in valid_chars:
+                raise FileNotFoundError
+        try:
+            self._empty_current_directory()
+            for entry in self.get_tree(tree_oid, base_path="./").items():
+                path = entry[0]
+                oid = entry[1]
+                path = Path(path)
+                (path.parent).mkdir(exist_ok=True)
+                with path.open(mode="wb") as f:
+                    f.write(self.ll_funcs.get_object(oid))
+        except FileNotFoundError:
+            print("Invalid object ID")
 
     def commit(self, message):
         commit = f"tree {self.write_tree()}\n"
