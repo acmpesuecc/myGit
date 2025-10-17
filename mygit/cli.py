@@ -50,11 +50,9 @@ def parse_args():
     checkout_parser.set_defaults(func=checkout)
     checkout_parser.add_argument("oid")
 
-    tag_parser = commands.add_parser("tag")
+    tag_parser = commands.add_parser("tag", help="Create, list, or delete tags")
     tag_parser.set_defaults(func=tag)
     tag_parser.add_argument("oid", nargs="?")
-    tag_parser = commands.add_parser("tag")
-    tag_parser = commands.add_parser("tag", help="Create, list, or delete tags")
     tag_parser.add_argument("name", nargs="?", help="Tag name")
     tag_parser.add_argument("oid", nargs="?", help="Commit hash (optional)")
     tag_parser.add_argument("-a", "--annotate", action="store_true", help="Create an annotated tag")
