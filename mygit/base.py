@@ -113,8 +113,53 @@ class MyGitHigherFuncs:
         self.read_tree(commit.tree)
         self.ll_funcs.update_ref("HEAD", oid)
 
-    def create_tag(self, name, oid):
+    def create_tag(self, name, oid,annotated=False,message=None):
         self.ll_funcs.update_ref(f"rel/tags/{name}", oid)
+        #lightweight tag - creation 
+        if annotated: 
+            tag_email = "mygit <user@example.com>"
+            tag_obj= { 
+                f"object {oid}\n"
+                f"type commit\n"
+                f"tag {name}\n"
+                f"tagger {tag_email}\n\n"
+                f"{message}\n"
+            } 
+            tag_oid = self.ll_funcs.hash_object(tag_obj.encode(), "tag")
+            self.ll_funcs.update_ref(f"refs/tags/{name}", tag_oid)
+        else:
+            self.ll_funcs.update_ref(f"refs/tags/{name}", oid)
+    def list_tags(self):
+        tags_dir = Path(self.ll_funcs.GIT_DIR) / "refs" / "tags"
+        if not tags_dir.exists():
+            print("No tags found.")
+            return
+        for tag_file in sorted(tags_dir.iterdir()):
+            oid = tag_file.read_text().strip()
+            print(f"{tag_file.name}\t{oid[:8]}")
+
+    def delete_tag(self, name):
+        tag_path = Path(self.ll_funcs.GIT_DIR) / "refs" / "tags" / name
+        if not tag_path.exists():
+            print(f"Tag '{name}' not found.")
+            return
+        tag_path.unlink()
+        print(f"Deleted tag '{name}'.")
+
+    def checkout_tag(self, name):
+        oid = self.ll_funcs.get_ref(f"refs/tags/{name}")
+        if not oid:
+            raise Exception(f"Tag '{name}' not found")
+
+        tag_obj_path = Path(self.ll_funcs.GIT_DIR) / "objects" / oid[:2] / oid[2:]
+        if tag_obj_path.exists():
+            content = self.ll_funcs.get_object(oid, expected="tag").decode()
+            for line in content.splitlines():
+                if line.startswith("object "):
+                    oid = line.split()[1]
+                    break
+        self.checkout(oid)
+        print(f"Checked out tag '{name}' → {oid[:8]}")
 
 
 def get_oid(self, name):

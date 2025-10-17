@@ -52,8 +52,15 @@ def parse_args():
 
     tag_parser = commands.add_parser("tag")
     tag_parser.set_defaults(func=tag)
-    tag_parser.add_argument("name")
     tag_parser.add_argument("oid", nargs="?")
+    tag_parser = commands.add_parser("tag")
+    tag_parser = commands.add_parser("tag", help="Create, list, or delete tags")
+    tag_parser.add_argument("name", nargs="?", help="Tag name")
+    tag_parser.add_argument("oid", nargs="?", help="Commit hash (optional)")
+    tag_parser.add_argument("-a", "--annotate", action="store_true", help="Create an annotated tag")
+    tag_parser.add_argument("-m", "--message", help="Tag message (for annotated tags)")
+    tag_parser.add_argument("-d", "--delete", action="store_true", help="Delete tag")
+    tag_parser.set_defaults(func=tag)
 
     return parser.parse_args()
 
@@ -114,8 +121,10 @@ def log(args):
 
 
 def checkout(args):
-    hl_funcs.checkout(args.oid)
-
+    try:
+        hl_funcs.checkout(args.oid)
+    except Exception as e: 
+        hl_funcs.checkout_tag(args.oid)
 
 def tag(args):
     oid = args.oid or repo_funcs.get_ref("HEAD")
